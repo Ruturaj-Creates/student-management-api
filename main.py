@@ -24,3 +24,7 @@ def new_student(student:StudentCreate):
           )
     students.append(new_student)
     return new_student
+
+@app.get("/students",response_model=list[StudentResponse],status_code=status.HTTP_200_OK)
+def get_students():
+    return students
