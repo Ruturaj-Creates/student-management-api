@@ -28,3 +28,11 @@ def new_student(student:StudentCreate):
 @app.get("/students",response_model=list[StudentResponse],status_code=status.HTTP_200_OK)
 def get_students():
     return students
+
+@app.get("/students/{student_id}",response_model=StudentResponse,status_code=status.HTTP_200_OK)
+def get_by_id(student_id:int):
+    for student in students:
+        if student.id == student_id:
+            return student
+    raise HTTPException(status_code=404,detail="student not found")
+
