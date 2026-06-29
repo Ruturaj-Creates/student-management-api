@@ -1,5 +1,5 @@
 from fastapi import FastAPI,HTTPException,status
-from schemas import StudentCreate,StudentResponse
+from schemas import StudentCreate,StudentResponse,StudentUpdate
 from data import students
 
 app=FastAPI()
@@ -29,10 +29,37 @@ def new_student(student:StudentCreate):
 def get_students():
     return students
 
-@app.get("/students/{student_id}",response_model=StudentResponse,status_code=status.HTTP_200_OK)
+@app.get(
+        "/students/{student_id}",
+        response_model=StudentResponse,
+        status_code=status.HTTP_200_OK
+)
 def get_by_id(student_id:int):
     for student in students:
         if student.id == student_id:
             return student
-    raise HTTPException(status_code=404,detail="student not found")
+    raise HTTPException(
+        status_code=404,
+        detail="student not found"
+    )
 
+@app.put(
+    "/students/{student_id}",
+    response_model=StudentResponse,
+    status_code=status.HTTP_200_OK
+)
+def update_student(student_id: int, student_data: StudentUpdate):
+    for student in students:
+        if student.id == student_id:
+
+            update_data = student_data.model_dump(exclude_unset=True)
+
+            for key, value in update_data.items():
+                setattr(student, key, value)
+
+            return student
+
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail="Student not found"
+    )
