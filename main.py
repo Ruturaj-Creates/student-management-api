@@ -63,3 +63,21 @@ def update_student(student_id: int, student_data: StudentUpdate):
         status_code=status.HTTP_404_NOT_FOUND,
         detail="Student not found"
     )
+
+@app.delete(
+        "/students/{student_id}",
+        status_code=status.HTTP_200_OK
+)
+def delete_student(student_id:int):
+    for index,stud in enumerate(students):
+        if student_id == stud.id:
+            students.pop(index)
+
+            return {
+                "details":"student deleted successfully..."
+                }
+        
+    raise HTTPException(
+        status_code=404,
+        detail="Student not found"
+        )
