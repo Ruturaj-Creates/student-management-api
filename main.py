@@ -39,7 +39,7 @@ def get_by_id(student_id:int):
         if student.id == student_id:
             return student
     raise HTTPException(
-        status_code=404,
+        status_code=status.HTTP_404_NOT_FOUND,
         detail="student not found"
     )
 
@@ -78,6 +78,6 @@ def delete_student(student_id:int):
                 }
         
     raise HTTPException(
-        status_code=404,
+        status_code=status.HTTP_404_NOT_FOUND,
         detail="Student not found"
-        )
+    )
