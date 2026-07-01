@@ -30,6 +30,18 @@ def get_students():
     return students
 
 @app.get(
+        "/students/search",
+        status_code=status.HTTP_200_OK
+)
+def search_student(name:str):
+    result=[]
+    for student in students:
+        if name == student.name:
+            result.append(student)
+    return result
+    
+
+@app.get(
         "/students/{student_id}",
         response_model=StudentResponse,
         status_code=status.HTTP_200_OK
