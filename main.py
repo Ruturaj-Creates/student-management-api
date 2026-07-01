@@ -26,8 +26,9 @@ def new_student(student:StudentCreate):
     return new_student
 
 @app.get("/students",response_model=list[StudentResponse],status_code=status.HTTP_200_OK)
-def get_students():
-    return students
+def get_students(limit:int, offset:int):
+    pagination_student=students[offset:offset+limit:1]
+    return pagination_student
 
 @app.get(
         "/students/search",
